@@ -54,7 +54,7 @@ namespace EFCore.Multitenant
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EFCore.Multitenant v1"));
             }
 
-            DatabaseInitialize(app);
+            //DatabaseInitialize(app);
 
             app.UseHttpsRedirection();
 
@@ -70,20 +70,20 @@ namespace EFCore.Multitenant
             });
         }
 
-        private void DatabaseInitialize(IApplicationBuilder app)
-        {
-            using ApplicationContext db = app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<ApplicationContext>();
+        //private void DatabaseInitialize(IApplicationBuilder app)
+        //{
+        //    using ApplicationContext db = app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<ApplicationContext>();
 
-            db.Database.EnsureDeleted();
-            db.Database.EnsureCreated();
+        //    db.Database.EnsureDeleted();
+        //    db.Database.EnsureCreated();
 
-            for (var index = 1; index <= 5; index++)
-            {
-                db.People.Add(new Person { Name = $"Person {index}" });
-                db.Products.Add(new Product { Description = $"Product {index}" });
-            }
+        //    for (var index = 1; index <= 5; index++)
+        //    {
+        //        db.People.Add(new Person { Name = $"Person {index}" });
+        //        db.Products.Add(new Product { Description = $"Product {index}" });
+        //    }
 
-            db.SaveChanges();
-        }
+        //    db.SaveChanges();
+        //}
     }
 }
