@@ -11,13 +11,11 @@ namespace EFCore.Multitenant.Data.ModelFactory
     {
         public object Create(DbContext context)
         {
-            var model = new
+            return new
             {
                 Type = context.GetType(),
                 Schema = (context as ApplicationContext)?.TenantData.TenantId
             };
-
-            return model;
         }
     }
 }
