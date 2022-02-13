@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EFCore.Multitenant.Domain.Abstract
+namespace EFCore.Multitenant.Provider
 {
-    public abstract class BaseEntity
+    public class TenantData
     {
-        public int Id { get; set; }
         public string TenantId { get; set; }
     }
 }
