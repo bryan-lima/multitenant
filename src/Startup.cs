@@ -42,12 +42,17 @@ namespace EFCore.Multitenant
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "EFCore.Multitenant", Version = "v1" });
             });
 
+            //Estratégia 1 - Identificador na tabela
+            /*
             services.AddScoped<StrategySchemaInterceptor>();
 
-            //services.AddDbContext<ApplicationContext>(optionsBuilder => optionsBuilder.UseSqlServer("Data Source=DESKTOP-B76722G\\SQLEXPRESS; Initial Catalog=Multitenant; User ID=developer; Password=dev*10; Integrated Security=True; Persist Security Info=False; Pooling=False; MultipleActiveResultSets=False; Encrypt=False; Trusted_Connection=False")
-            //                                                                          .LogTo(Console.WriteLine)
-            //                                                                          .EnableSensitiveDataLogging());
+            services.AddDbContext<ApplicationContext>(optionsBuilder => optionsBuilder.UseSqlServer("Data Source=DESKTOP-B76722G\\SQLEXPRESS; Initial Catalog=Multitenant; User ID=developer; Password=dev*10; Integrated Security=True; Persist Security Info=False; Pooling=False; MultipleActiveResultSets=False; Encrypt=False; Trusted_Connection=False")
+                                                                                      .LogTo(Console.WriteLine)
+                                                                                      .EnableSensitiveDataLogging());
+            */
 
+            //Estratégia 2 - Schema
+            /*
             services.AddDbContext<ApplicationContext>((provider, optionsBuilder) => 
             {
                 optionsBuilder.UseSqlServer("Data Source=DESKTOP-B76722G\\SQLEXPRESS; Initial Catalog=Multitenant; User ID=developer; Password=dev*10; Integrated Security=True; Persist Security Info=False; Pooling=False; MultipleActiveResultSets=False; Encrypt=False; Trusted_Connection=False")
@@ -59,6 +64,7 @@ namespace EFCore.Multitenant
 
                 //optionsBuilder.AddInterceptors(interceptor);
             });
+            */
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -79,7 +85,7 @@ namespace EFCore.Multitenant
 
             app.UseAuthorization();
 
-            app.UseMiddleware<TenantMiddleware>();
+            //app.UseMiddleware<TenantMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

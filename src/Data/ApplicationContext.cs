@@ -12,16 +12,16 @@ namespace EFCore.Multitenant.Data
     {
         public DbSet<Person> People { get; set; }
         public DbSet<Product> Products { get; set; }
-        public readonly TenantData TenantData;
+        //public readonly TenantData TenantData;
 
-        public ApplicationContext(DbContextOptions<ApplicationContext> options, TenantData tenant) : base(options)
+        public ApplicationContext(DbContextOptions<ApplicationContext> options/*, TenantData tenant*/) : base(options)
         {
-            TenantData = tenant;
+            //TenantData = tenant;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasDefaultSchema(TenantData.TenantId);
+            //modelBuilder.HasDefaultSchema(TenantData.TenantId);
 
             modelBuilder.Entity<Person>()
                         .HasData(
