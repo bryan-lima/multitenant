@@ -21,9 +21,7 @@ namespace EFCore.Multitenant.Extensions
 
             //Usando Path
             //Exeplo de rota: desenvolvedor.io/tenant-1/product -> " " / "tenant-1" / "product"
-            var tenant = httpContext.Request.Path.Value.Split("/", StringSplitOptions.RemoveEmptyEntries)[0];
-
-            return tenant;
+            return httpContext.Request.Path.Value.Split("/", StringSplitOptions.RemoveEmptyEntries)[0];
         }
     }
 }
