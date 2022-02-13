@@ -12,12 +12,11 @@ namespace EFCore.Multitenant.Data
     {
         public DbSet<Person> People { get; set; }
         public DbSet<Product> Products { get; set; }
-
-        private readonly TenantData _tenant;
+        public readonly TenantData TenantData;
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options, TenantData tenant) : base(options)
         {
-            _tenant = tenant;
+            TenantData = tenant;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -35,10 +34,10 @@ namespace EFCore.Multitenant.Data
                 new Product { Id = 3, Description = "Description 3", TenantId = "tenant-2" });
 
             modelBuilder.Entity<Person>()
-                        .HasQueryFilter(person => person.TenantId.Equals(_tenant.TenantId));
+                        .HasQueryFilter(person => person.TenantId.Equals(TenantData.TenantId));
             
             modelBuilder.Entity<Product>()
-                        .HasQueryFilter(product => product.TenantId.Equals(_tenant.TenantId));
+                        .HasQueryFilter(product => product.TenantId.Equals(TenantData.TenantId));
         }
     }
 }
