@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EFCore.Multitenant.Data;
 using EFCore.Multitenant.Domain;
+using EFCore.Multitenant.Middlewares;
 using EFCore.Multitenant.Provider;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -60,6 +61,8 @@ namespace EFCore.Multitenant
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseMiddleware<TenantMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
