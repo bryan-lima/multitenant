@@ -35,11 +35,11 @@ namespace EFCore.Multitenant.Data
                 new Product { Id = 2, Description = "Description 2", TenantId = "tenant-2" },
                 new Product { Id = 3, Description = "Description 3", TenantId = "tenant-2" });
 
-            modelBuilder.Entity<Person>()
-                        .HasQueryFilter(person => person.TenantId.Equals(TenantData.TenantId));
+            //modelBuilder.Entity<Person>()
+            //            .HasQueryFilter(person => person.TenantId.Equals(TenantData.TenantId));
             
-            modelBuilder.Entity<Product>()
-                        .HasQueryFilter(product => product.TenantId.Equals(TenantData.TenantId));
+            //modelBuilder.Entity<Product>()
+            //            .HasQueryFilter(product => product.TenantId.Equals(TenantData.TenantId));
         }
     }
 }
