@@ -23,9 +23,7 @@ namespace EFCore.Multitenant.Controllers
         [HttpGet]
         public IEnumerable<Person> Get([FromServices] ApplicationContext db)
         {
-            Person[] _people = db.People.ToArray();
-
-            return _people;
+            return db.People.ToArray();
         }
     }
 }
