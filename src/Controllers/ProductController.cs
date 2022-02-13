@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 namespace EFCore.Multitenant.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("{tenant}/[controller]")]
     public class ProductController : ControllerBase
     {
         private readonly ILogger<ProductController> _logger;
