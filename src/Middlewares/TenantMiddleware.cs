@@ -20,8 +20,8 @@ namespace EFCore.Multitenant.Middlewares
 
         public async Task InvokeAsync(HttpContext httpContext)
         {
-            var tenant = httpContext.RequestServices.GetRequiredService<TenantData>();
-            tenant.TenantId = httpContext.GetTenantId();
+            TenantData _tenant = httpContext.RequestServices.GetRequiredService<TenantData>();
+            _tenant.TenantId = httpContext.GetTenantId();
 
             await _next(httpContext);
         }
