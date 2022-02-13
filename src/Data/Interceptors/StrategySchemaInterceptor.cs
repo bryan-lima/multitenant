@@ -27,8 +27,8 @@ namespace EFCore.Multitenant.Data.Interceptors
         private void ReplaceSchema(DbCommand command)
         {
             //FROM PRODUCTS -> FROM [tenant-1].PRODUCTS 
-            command.CommandText = command.CommandText.Replace("FROM ", $" FROM {_tenant.TenantId}.")
-                                                     .Replace("JOIN ", $" JOIN {_tenant.TenantId}.");
+            command.CommandText = command.CommandText.Replace("FROM ", $" FROM [{_tenant.TenantId}].")
+                                                     .Replace("JOIN ", $" JOIN [{_tenant.TenantId}].");
         }
     }
 }
