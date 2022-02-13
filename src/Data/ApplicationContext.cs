@@ -21,7 +21,7 @@ namespace EFCore.Multitenant.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.HasDefaultSchema(TenantData.TenantId);
+            modelBuilder.HasDefaultSchema(TenantData.TenantId);
 
             modelBuilder.Entity<Person>()
                         .HasData(

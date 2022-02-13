@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EFCore.Multitenant.Data;
 using EFCore.Multitenant.Data.Interceptors;
+using EFCore.Multitenant.Data.ModelFactory;
 using EFCore.Multitenant.Domain;
 using EFCore.Multitenant.Middlewares;
 using EFCore.Multitenant.Provider;
@@ -12,6 +13,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -50,11 +52,12 @@ namespace EFCore.Multitenant
             {
                 optionsBuilder.UseSqlServer("Data Source=DESKTOP-B76722G\\SQLEXPRESS; Initial Catalog=Multitenant; User ID=developer; Password=dev*10; Integrated Security=True; Persist Security Info=False; Pooling=False; MultipleActiveResultSets=False; Encrypt=False; Trusted_Connection=False")
                               .LogTo(Console.WriteLine)
+                              .ReplaceService<IModelCacheKeyFactory, StrategySchemaModelCacheKey>()
                               .EnableSensitiveDataLogging();
 
-                var interceptor = provider.GetRequiredService<StrategySchemaInterceptor>();
+                //var interceptor = provider.GetRequiredService<StrategySchemaInterceptor>();
 
-                optionsBuilder.AddInterceptors(interceptor);
+                //optionsBuilder.AddInterceptors(interceptor);
             });
         }
 
