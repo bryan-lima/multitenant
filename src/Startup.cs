@@ -6,10 +6,12 @@ using EFCore.Multitenant.Data;
 using EFCore.Multitenant.Data.Interceptors;
 using EFCore.Multitenant.Data.ModelFactory;
 using EFCore.Multitenant.Domain;
+using EFCore.Multitenant.Extensions;
 using EFCore.Multitenant.Middlewares;
 using EFCore.Multitenant.Provider;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -73,7 +75,11 @@ namespace EFCore.Multitenant
             {
                 var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
 
-                optionsBuilder.UseSqlServer("Server=DESKTOP-B76722G\\SQLEXPRESS; Database=Multitenant; Integrated Security=True;")
+                var httpContext = provider.GetService<IHttpContextAccessor>()?.HttpContext;
+                var tenantId = httpContext?.GetTenantId();
+
+                var connectionString = Configuration.GetConnectionString(tenantId);
+                optionsBuilder.UseSqlServer(connectionString)
                               .LogTo(Console.WriteLine)
                               .EnableSensitiveDataLogging();
 
