@@ -78,7 +78,10 @@ namespace EFCore.Multitenant
                 var httpContext = provider.GetService<IHttpContextAccessor>()?.HttpContext;
                 var tenantId = httpContext?.GetTenantId();
 
-                var connectionString = Configuration.GetConnectionString(tenantId);
+                //var connectionString = Configuration.GetConnectionString(tenantId);
+                var connectionString = Configuration.GetConnectionString("custom")
+                                                    .Replace("_DATABASE_", tenantId);
+
                 optionsBuilder.UseSqlServer(connectionString)
                               .LogTo(Console.WriteLine)
                               .EnableSensitiveDataLogging();
