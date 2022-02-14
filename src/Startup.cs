@@ -6,10 +6,12 @@ using EFCore.Multitenant.Data;
 using EFCore.Multitenant.Data.Interceptors;
 using EFCore.Multitenant.Data.ModelFactory;
 using EFCore.Multitenant.Domain;
+using EFCore.Multitenant.Extensions;
 using EFCore.Multitenant.Middlewares;
 using EFCore.Multitenant.Provider;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -42,12 +44,17 @@ namespace EFCore.Multitenant
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "EFCore.Multitenant", Version = "v1" });
             });
 
+            //Estratégia 1 - Identificador na tabela
+            /*
             services.AddScoped<StrategySchemaInterceptor>();
 
-            //services.AddDbContext<ApplicationContext>(optionsBuilder => optionsBuilder.UseSqlServer("Data Source=DESKTOP-B76722G\\SQLEXPRESS; Initial Catalog=Multitenant; User ID=developer; Password=dev*10; Integrated Security=True; Persist Security Info=False; Pooling=False; MultipleActiveResultSets=False; Encrypt=False; Trusted_Connection=False")
-            //                                                                          .LogTo(Console.WriteLine)
-            //                                                                          .EnableSensitiveDataLogging());
+            services.AddDbContext<ApplicationContext>(optionsBuilder => optionsBuilder.UseSqlServer("Data Source=DESKTOP-B76722G\\SQLEXPRESS; Initial Catalog=Multitenant; User ID=developer; Password=dev*10; Integrated Security=True; Persist Security Info=False; Pooling=False; MultipleActiveResultSets=False; Encrypt=False; Trusted_Connection=False")
+                                                                                      .LogTo(Console.WriteLine)
+                                                                                      .EnableSensitiveDataLogging());
+            */
 
+            //Estratégia 2 - Schema
+            /*
             services.AddDbContext<ApplicationContext>((provider, optionsBuilder) => 
             {
                 optionsBuilder.UseSqlServer("Data Source=DESKTOP-B76722G\\SQLEXPRESS; Initial Catalog=Multitenant; User ID=developer; Password=dev*10; Integrated Security=True; Persist Security Info=False; Pooling=False; MultipleActiveResultSets=False; Encrypt=False; Trusted_Connection=False")
@@ -58,6 +65,28 @@ namespace EFCore.Multitenant
                 //var interceptor = provider.GetRequiredService<StrategySchemaInterceptor>();
 
                 //optionsBuilder.AddInterceptors(interceptor);
+            });
+            */
+
+            //Estratégia 3 - Banco de dados
+            services.AddHttpContextAccessor();
+
+            services.AddScoped<ApplicationContext>(provider =>
+            {
+                var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
+
+                var httpContext = provider.GetService<IHttpContextAccessor>()?.HttpContext;
+                var tenantId = httpContext?.GetTenantId();
+
+                //var connectionString = Configuration.GetConnectionString(tenantId);
+                var connectionString = Configuration.GetConnectionString("custom")
+                                                    .Replace("_DATABASE_", tenantId);
+
+                optionsBuilder.UseSqlServer(connectionString)
+                              .LogTo(Console.WriteLine)
+                              .EnableSensitiveDataLogging();
+
+                return new ApplicationContext(optionsBuilder.Options);
             });
         }
 
@@ -79,7 +108,7 @@ namespace EFCore.Multitenant
 
             app.UseAuthorization();
 
-            app.UseMiddleware<TenantMiddleware>();
+            //app.UseMiddleware<TenantMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

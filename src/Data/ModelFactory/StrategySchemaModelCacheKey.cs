@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace EFCore.Multitenant.Data.ModelFactory
 {
-    public class StrategySchemaModelCacheKey : IModelCacheKeyFactory
-    {
-        public object Create(DbContext context)
-        {
-            return new
-            {
-                Type = context.GetType(),
-                Schema = (context as ApplicationContext)?.TenantData.TenantId
-            };
-        }
-    }
+    //public class StrategySchemaModelCacheKey : IModelCacheKeyFactory
+    //{
+    //    public object Create(DbContext context)
+    //    {
+    //        return new
+    //        {
+    //            Type = context.GetType(),
+    //            Schema = (context as ApplicationContext)?.TenantData.TenantId
+    //        };
+    //    }
+    //}
 }
