@@ -73,7 +73,7 @@ namespace EFCore.Multitenant
             {
                 var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
 
-                optionsBuilder.UseSqlServer("Data Source=DESKTOP-B76722G\\SQLEXPRESS; Initial Catalog=Multitenant; User ID=developer; Password=dev*10; Integrated Security=True; Persist Security Info=False; Pooling=False; MultipleActiveResultSets=False; Encrypt=False; Trusted_Connection=False")
+                optionsBuilder.UseSqlServer("Server=DESKTOP-B76722G\\SQLEXPRESS; Database=Multitenant; Integrated Security=True;")
                               .LogTo(Console.WriteLine)
                               .EnableSensitiveDataLogging();
 
